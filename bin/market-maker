@@ -2,6 +2,12 @@
 var program     = require('commander')
 var MarketMaker = require(__dirname+'/../build/market_maker')
 var Market      = require(__dirname+'/../build/market')
+var promptly    = require('promptly')
+var Promise     = require('bluebird')
+var http        = require('superagent')
+promptly        = Promise.promisifyAll(promptly)
+var Orders      = require(__dirname+'/../build/orders')
+var orders      = new Orders()
 
 program
   .command('start')
@@ -22,6 +28,34 @@ program
     new Market(marketMaker).fetch()
       .then(function(response) { console.log('market', response) })
       .error(console.log)
+  })
+
+program
+  .command('order')
+  .description('create a new order')
+  .action(function() {
+    var currency, amount, price;
+
+    promptly.promptAsync('Currency: ')
+      .then(function(c) { currency = c
+        return promptly.promptAsync('Amount of '+currency+': ')
+      .then(function(a) { amount = a
+        return promptly.promptAsync('XRP Price: ')
+      })
+      .then(function(p) { price = p
+        orders.createAccountOrder({
+          currency: currency,
+          amount: amount,
+          price: price
+        })
+        .then(function(order) {
+          console.log('ORDER CREATED!', order)
+        })
+        .error(function(error) {
+          console.log('ERROR', error)
+        })
+      })
+    })
   })
 
 program

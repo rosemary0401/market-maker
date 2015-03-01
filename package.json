@@ -16,11 +16,12 @@
     "url": "https://github.com/ripple/market-maker"
   },
   "dependencies": {
-    "bluebird": "",
+    "bluebird": "^2.9.12",
     "commander": "",
     "domain-supervisor": "^0.3.1",
     "gulp": "",
     "gulp-6to5": "",
+    "promptly": "^0.2.1",
     "ripple-account-monitor": "",
     "ripple-lib": "",
     "ripple-rest-client": "",

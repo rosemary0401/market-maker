@@ -25,7 +25,7 @@ export default class Account {
       })
       .end(function(error, response) {
         if (error) { return reject(error) }
-        resolve(new AccountOffers(response.body))
+        resolve(AccountOffers.from_rpc_response(response.body))
       })
     })
   }

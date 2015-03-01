@@ -40,7 +40,7 @@ var Account = (function () {
             if (error) {
               return reject(error);
             }
-            resolve(new AccountOffers(response.body));
+            resolve(AccountOffers.from_rpc_response(response.body));
           });
         });
       },
